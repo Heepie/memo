@@ -1,5 +1,6 @@
  package com.example.heepie.pic_mem_orm;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import android.widget.Toast;
 
 import com.example.heepie.pic_mem_orm.DAO.PicNoteDAO;
 import com.example.heepie.pic_mem_orm.model.PicNote;
+import com.example.heepie.pic_mem_orm.util.FileUtil;
+
+import java.io.IOException;
 
  public class DrawActivity extends AppCompatActivity {
      private static final String DELIMITER = ":::";
@@ -66,12 +70,16 @@ import com.example.heepie.pic_mem_orm.model.PicNote;
 
     private PicNote getPicNoteFromScreen() {
         long time = System.currentTimeMillis();
+        String fileName = editTitle.getText().toString() + DELIMITER + time;
         PicNote picNote = new PicNote();
         picNote.setTitle(editTitle.getText().toString());
         Log.i("heepie", "Draw " + editTitle.getText().toString());
+
         picNote.setN_date(time);
-        picNote.setBitmap_path(editTitle.getText().toString() + DELIMITER + time);
+
+        picNote.setBitmap_path(fileName + ".jpg");
         Log.i("heepie", "Draw " + editTitle.getText().toString() + DELIMITER + time);
+
         picNote.setContent(editContent.getText().toString());
         Log.i("heepie", "Draw " + editContent.getText().toString());
         return picNote;
@@ -84,8 +92,13 @@ import com.example.heepie.pic_mem_orm.model.PicNote;
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Clicked Post", Toast.LENGTH_SHORT).show();
                 PicNote picNote = getPicNoteFromScreen();
+
+                // 그림 File로 저장
+                captrueCanvas(picNote.getBitmap_path());
+                // DB에 저장
                 dao.create(picNote);
                 setResult(RESULT_OK);
+
                 finish();
             }
         });
@@ -156,4 +169,30 @@ import com.example.heepie.pic_mem_orm.model.PicNote;
             }
         });
     }
+
+     /**
+      * 그림을 그린 stage를 캡쳐
+      */
+     public void captrueCanvas(String fileName) {
+         // 0. 드로잉 캐쉬를 먼저 초기화
+         stage.destroyDrawingCache();
+
+         // 1. 다시 캐쉬 생성
+         stage.buildDrawingCache();
+
+         // 2. 레이아웃에서 그려진 내용을 bitmap 형태로 가져온다.
+         Bitmap bitmap = stage.getDrawingCache();
+
+         // 이미지 파일 저장
+         try {
+             FileUtil.write(this, fileName, bitmap);
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+         // 중요한 것
+         bitmap.recycle();
+
+         finish();
+     }
 }

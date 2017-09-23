@@ -62,11 +62,16 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
+
             case DRAWACTIVITY:
-                if (resultCode == RESULT_OK) {
+//                Log.i("heepie", ""+resultCode);
+//                if (resultCode == RESULT_OK) {
+
                     refresh();
-                }
+//                }
+                break;
         }
     }
 
