@@ -39,6 +39,15 @@
         android:layout_marginEnd="8dp">
 
         <RadioButton
+            android:id="@+id/radioBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Black"
+            android:checked="true"
+            />
+
+        <RadioButton
             android:id="@+id/radioCyan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,25 +55,18 @@
             android:text="Cyan" />
 
         <RadioButton
-            android:id="@+id/radioMegenta"
+            android:id="@+id/radioMagenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Magenta" />
 
         <RadioButton
-            android:id="@+id/radioBlack"
+            android:id="@+id/radioBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Black" />
-
-        <RadioButton
-            android:id="@+id/radioYellow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Yellow" />
+            android:text="Blue" />
     </RadioGroup>
 
     <Button

@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Heepie on 2017. 9. 22..
@@ -16,68 +17,64 @@ import java.util.ArrayList;
 
 public class DrawView extends View{
     private Paint paint;
-    private Path currentPath;
-    private PathTool pathTool;
-    private ArrayList<Path> paths;
+    private PathInfo pathInfo;
+    private List<PathInfo> data;
 
     public DrawView(Context context) {
         super(context);
+        data = new ArrayList<>();
+    }
+
+    public void setPaintInfo(int color, float r) {
         paint = new Paint();
-        currentPath = new Path();
-
-        paint.setColor(Color.BLACK);
+        paint.setColor(color);
+//        this.r = r;
+        paint.setStrokeWidth(r);
+// 선 두께 설정
+        // 라인 설정을 위해
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(5f);
+//        pathInfo = new PathInfo();
+//        pathInfo.getPaint().setColor(color);
+//        pathInfo.getPaint().setStrokeWidth(r);
 
-        paths = new ArrayList<>();
+        pathInfo = new PathInfo();
+        pathInfo.setPaint(paint);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawPath(currentPath, paint);
+        for (PathInfo p : data) {
+            canvas.drawPath(p, p.getPaint());
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         switch (event.getAction()) {
+            // View가 눌렸다면
             case MotionEvent.ACTION_DOWN:
-                currentPath.moveTo(event.getX(), event.getY());
+                pathInfo.moveTo(event.getX(), event.getY());
                 break;
+            // View를 누르고 이동했다면
             case MotionEvent.ACTION_MOVE:
-                currentPath.lineTo(event.getX(), event.getY());
+                pathInfo.lineTo(event.getX(), event.getY());
                 break;
+            // View에서 터치를 떼었다면
             case MotionEvent.ACTION_UP:
+
                 break;
         }
+
+        data.add(pathInfo);
 
         invalidate();
 
         return true;
     }
 
-    public void makeTool() {
-        pathTool = new PathTool();
-    }
-    public void addTool() {
-        paths.add(pathTool);
-    }
-    public void setWidth(int progress) {
-        float width = (float)progress/10;
-        pathTool.setStrokeWidth(width);
-    }
-    public void setColor(int color) {
-        pathTool.setColor(color);
-    }
-    public void sendToolToCP() {
-        currentPath = pathTool;
-    }
-
-    public PathTool getPathTool() {
-        return pathTool;
-    }
 }
 
 class PathTool extends Path {
@@ -94,5 +91,24 @@ class PathTool extends Path {
 
     public int getColor() {
         return color;
+    }
+}
+
+/**
+ * Path마다 Paint 객체를 사용하기 위해 Path 클래스 상속
+ */
+class PathInfo extends Path {
+    private Paint paint;
+
+    PathInfo() {
+        paint = new Paint();
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
     }
 }

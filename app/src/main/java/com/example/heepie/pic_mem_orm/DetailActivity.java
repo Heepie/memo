@@ -1,6 +1,7 @@
 package com.example.heepie.pic_mem_orm;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.heepie.pic_mem_orm.model.PicNote;
+import com.example.heepie.pic_mem_orm.util.FileUtil;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * 상세 페이지
@@ -26,14 +32,27 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Bitmap bitmap=null;
 
         initVeiw();
 
         PicNote picNote = (PicNote) getIntent().getSerializableExtra("picNote");
+        try {
+            bitmap = FileUtil.read(this, picNote.getBitmap_path());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         detailtextTitle.setText(picNote.getTitle());
         detailtextContent.setText(picNote.getContent());
-        detailtextDate.setText(picNote.getN_date()+"");
+
+        // 시간 가공
+        DateFormat df = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
+        String date = df.format(picNote.getN_date());
+        detailtextDate.setText(date);
+        detailImage.setImageBitmap(bitmap);
+
 
     }
 

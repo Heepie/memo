@@ -23,22 +23,22 @@ import com.example.heepie.pic_mem_orm.util.FileUtil;
 import java.io.IOException;
 
  public class DrawActivity extends AppCompatActivity {
+     private final String className = getClass().getSimpleName();
      private static final String DELIMITER = ":::";
-    private SeekBar seekBar;
+
+     private SeekBar seekBar;
     private RadioGroup radioGroup;
-    private RadioButton radioCyan;
-    private RadioButton radioMegenta;
-    private RadioButton radioBlack;
-    private RadioButton radioYellow;
     private Button btnPost;
     private TextView textSeekResult;
     private FrameLayout stage;
     private DrawView drawView;
-     private EditText editTitle;
-     private EditText editContent;
+    private EditText editTitle;
+    private EditText editContent;
 
-     private int progress;
-     private PicNoteDAO dao;
+     private int color = Color.BLACK;
+     private float r = 5f;
+
+    private PicNoteDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,6 @@ import java.io.IOException;
     private void initView() {
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        radioCyan = (RadioButton) findViewById(R.id.radioCyan);
-        radioMegenta = (RadioButton) findViewById(R.id.radioMegenta);
-        radioBlack = (RadioButton) findViewById(R.id.radioBlack);
-        radioYellow = (RadioButton) findViewById(R.id.radioYellow);
         btnPost = (Button) findViewById(R.id.btnPost);
         textSeekResult = (TextView) findViewById(R.id.textSeekResult);
         editTitle = (EditText) findViewById(R.id.editTitle);
@@ -63,6 +59,8 @@ import java.io.IOException;
         stage = (FrameLayout)findViewById(R.id.stage);
 
         drawView = new DrawView(this);
+        drawView.setPaintInfo(color, r);
+
         stage.addView(drawView);
 
         dao = new PicNoteDAO(this);
@@ -103,44 +101,32 @@ import java.io.IOException;
             }
         });
 
-        // RadioGroup 리스너
+        // 라디오 그룹 리스너
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
-                switch (id) {
-                    case R.id.radioCyan:
-//                        drawView.makeTool();
-//                        drawView.setWidth(progress);
-//                        drawView.setColor(Color.CYAN);
-//                        drawView.sendToolToCP();
-//                        drawView.addTool();
-                        break;
-
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i) {
                     case R.id.radioBlack:
-//                        drawView.makeTool();
-//                        drawView.setWidth(progress);
-//                        drawView.setColor(Color.BLACK);
-//                        drawView.sendToolToCP();
-//                        drawView.addTool();
+                        Log.i("heepie", className + " choiced black");
+                        color = Color.BLACK;
                         break;
 
-                    case R.id.radioMegenta:
-//                        drawView.makeTool();
-//                        drawView.setWidth(progress);
-//                        drawView.setColor(Color.MAGENTA);
-//                        drawView.sendToolToCP();
-//                        drawView.addTool();
+                    case R.id.radioCyan:
+                        Log.i("heepie", className + " choiced Cyan");
+                        color = Color.CYAN;
                         break;
 
-                    case R.id.radioYellow:
-//                        drawView.makeTool();
-//                        drawView.setWidth(progress);
-//                        drawView.setColor(Color.YELLOW);
-//                        drawView.sendToolToCP();
-//                        drawView.addTool();
+                    case R.id.radioMagenta:
+                        Log.i("heepie", className + " choiced magenta");
+                        color = Color.MAGENTA;
+                        break;
+
+                    case R.id.radioBlue:
+                        Log.i("heepie", className + " choiced Blue");
+                        color = Color.BLUE;
                         break;
                 }
-
+                drawView.setPaintInfo(color, r);
             }
         });
 
@@ -148,14 +134,8 @@ import java.io.IOException;
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                // 현재 Seekbar 상태 textView에 설정
                 textSeekResult.setText(i+"");
-//                progress = i;
-//                int color = drawView.getPathTool().getColor();
-//                drawView.makeTool();
-//                drawView.setWidth(progress);
-//                drawView.setColor(color);
-//                drawView.sendToolToCP();
-//                drawView.addTool();
             }
 
             @Override
@@ -166,6 +146,9 @@ import java.io.IOException;
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+                Log.i("heepie", className + " " + r);
+                r = (float)seekBar.getProgress() / 10;
+                drawView.setPaintInfo(color, r);
             }
         });
     }
