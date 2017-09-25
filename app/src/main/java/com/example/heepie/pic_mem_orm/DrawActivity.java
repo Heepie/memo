@@ -1,5 +1,7 @@
  package com.example.heepie.pic_mem_orm;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
@@ -20,10 +22,11 @@ import com.example.heepie.pic_mem_orm.DAO.PicNoteDAO;
 import com.example.heepie.pic_mem_orm.model.PicNote;
 import com.example.heepie.pic_mem_orm.util.FileUtil;
 
+import java.io.File;
 import java.io.IOException;
 
  public class DrawActivity extends AppCompatActivity {
-     private final String className = getClass().getSimpleName();
+     private final String className = getClass().getSimpleName() + " ";
      private static final String DELIMITER = ":::";
 
      private SeekBar seekBar;
@@ -97,6 +100,10 @@ import java.io.IOException;
                 dao.create(picNote);
 
                 setResult(RESULT_OK);
+
+                Log.e("TEST","RESULT_OK====="+RESULT_OK);
+                Log.e("heepie",className + RESULT_OK);
+
                 finish();
             }
         });
@@ -165,6 +172,17 @@ import java.io.IOException;
 
          // 2. 레이아웃에서 그려진 내용을 bitmap 형태로 가져온다.
          Bitmap bitmap = stage.getDrawingCache();
+
+//         // 파일명 중복 검사
+//         String dir = getFilesDir().getAbsolutePath();
+//         String fileFullPath = dir + "/" + fileName;
+//         File file = new File(fileFullPath);
+//         int count = 0;
+//         if (file.exists()) {
+//             count++;
+//             fileName =
+//             file = new File(dir + "/" + )
+//         }
 
          // 이미지 파일 저장
          try {

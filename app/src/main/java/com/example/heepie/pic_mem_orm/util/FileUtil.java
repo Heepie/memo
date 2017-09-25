@@ -17,6 +17,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class FileUtil {
+    // 일반적으로는 파일을 저장할 경로는 설정파일에 입력해준다.
+    private static final String DIR = "/temp/picnote";
+
     private final String className = getClass().getSimpleName();
 
     public static Bitmap read(Context context, String filename) throws IOException {
