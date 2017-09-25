@@ -18,6 +18,7 @@ import java.util.List;
  *
  */
 public class ListActivity extends AppCompatActivity {
+    private final String className = getClass().getSimpleName() + " ";
     private static final int DRAWACTIVITY = 60;
 
     private Button btnPost;
@@ -64,13 +65,12 @@ public class ListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         switch (requestCode) {
-
             case DRAWACTIVITY:
-//                Log.i("heepie", ""+resultCode);
-//                if (resultCode == RESULT_OK) {
+                Log.i("heepie", className + "ResultCode: " + resultCode);
+                if (resultCode == RESULT_OK) {
 
                     refresh();
-//                }
+                }
                 break;
         }
     }
@@ -79,7 +79,7 @@ public class ListActivity extends AppCompatActivity {
         List<PicNote> data = dao.readAll();
 
         for (PicNote item: data) {
-            Log.i("heepie", "ListActivity " + item.getTitle());
+            Log.i("heepie", className + item.getTitle());
         }
         adapter.setData(data);
     }

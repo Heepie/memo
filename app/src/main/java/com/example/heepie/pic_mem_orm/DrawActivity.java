@@ -83,7 +83,7 @@ import java.io.IOException;
         return picNote;
     }
 
-    private void initListener() {
+     private void initListener() {
         // Post Button 리스너
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +95,8 @@ import java.io.IOException;
                 captrueCanvas(picNote.getBitmap_path());
                 // DB에 저장
                 dao.create(picNote);
-                setResult(RESULT_OK);
 
+                setResult(RESULT_OK);
                 finish();
             }
         });

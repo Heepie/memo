@@ -16,6 +16,8 @@ import java.util.List;
  */
 
 public class PicNoteDAO {
+    private final String className = getClass().getSimpleName();
+
     private DBHelper dbHelper;
     Dao<PicNote, Long> ormDao;
 
@@ -58,10 +60,10 @@ public class PicNoteDAO {
         try {
             data = ormDao.queryForAll();
             for (PicNote picNote : data) {
-                Log.i("heepie", "dao readAll " + picNote.getTitle());
-                Log.i("heepie", "dao readAll " + picNote.getContent());
-                Log.i("heepie", "dao readAll " + picNote.getN_date());
-                Log.i("heepie", "dao readAll " + picNote.getBitmap_path());
+                Log.i("heepie", className + " readAll " + picNote.getTitle());
+                Log.i("heepie", className + " readAll " + picNote.getContent());
+                Log.i("heepie", className + " readAll " + picNote.getN_date());
+                Log.i("heepie", className + " readAll " + picNote.getBitmap_path());
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -13,6 +13,8 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = "picnote")
 public class PicNote implements Serializable{
+    private final String className = getClass().getSimpleName();
+
     @DatabaseField(generatedId = true)
     private long id;
 

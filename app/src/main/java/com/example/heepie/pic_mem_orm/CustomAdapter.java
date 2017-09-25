@@ -24,6 +24,8 @@ import java.util.List;
  * 리사이클러 아뎁터
  */
 public class CustomAdapter extends RecyclerView.Adapter<Holder> {
+    private final String className = getClass().getSimpleName();
+
     List<PicNote> data;
 
     // 데이터 등록
@@ -57,6 +59,8 @@ public class CustomAdapter extends RecyclerView.Adapter<Holder> {
 }
 
 class Holder extends RecyclerView.ViewHolder {
+    private final String className = getClass().getSimpleName();
+
     private PicNote picNote;
     private TextView textTitle;
     private TextView textContent;

@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
  * 상세 페이지
  */
 public class DetailActivity extends AppCompatActivity {
+    private final String className = getClass().getSimpleName();
 
     private TextView detailtextTitle;
     private TextView detailtextContent;

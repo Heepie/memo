@@ -16,6 +16,7 @@ import java.util.List;
  */
 
 public class DrawView extends View{
+    private final String className = getClass().getSimpleName();
     private Paint paint;
     private PathInfo pathInfo;
     private List<PathInfo> data;
@@ -77,27 +78,11 @@ public class DrawView extends View{
 
 }
 
-class PathTool extends Path {
-    int color;
-    float width;
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public void setStrokeWidth(float width) {
-        this.width = width;
-    }
-
-    public int getColor() {
-        return color;
-    }
-}
-
 /**
  * Path마다 Paint 객체를 사용하기 위해 Path 클래스 상속
  */
 class PathInfo extends Path {
+    private final String className = getClass().getSimpleName();
     private Paint paint;
 
     PathInfo() {

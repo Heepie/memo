@@ -17,6 +17,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class FileUtil {
+    private final String className = getClass().getSimpleName();
+
     public static Bitmap read(Context context, String filename) throws IOException {
         Bitmap bitmap = null;
         FileInputStream fis = null;
